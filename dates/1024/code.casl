@@ -1,0 +1,31 @@
+; CASL II シフト引き算法による整数割り算
+; IN:GR1=被除数,GR2=除数 / OUT:GR3=商,GR4=余り / TMP:GR0=マスク(商のビット位置), GR6=作業用除数
+DIV     START
+        LD    GR6,GR2    ; 作業除数=GR2のコピー（GR2は不変）
+        LAD   GR3,0      ; 商=0（以後ビット加算にて算出）
+        LD    GR4,GR1    ; 余り=被除数（減算で更新）
+        CPA   GR6,ZERO   ; 除数が0か判定
+        JZE   DIVEND     ; 除数0なら終了（商=0, 余り=被除数）
+        LAD   GR0,1      ; マスク=1（商の現在ビット位置）
+SHIFTLP CPA   GR6,GR4    ; 作業除数 > 余り → 押上げ完了
+        JPL   SHIFTEND   ; 余りを超えたら整列工程へ
+        SLA   GR6,1      ; 作業除数 <<=1（上位桁へ押上げ）
+        SLA   GR0,1      ; マスク   <<=1（商の対応ビットへ）
+        JUMP  SHIFTLP
+SHIFTEND CPA   GR0,ONE   ; マスク==1なら戻し不要
+        JZE   DIVLOOP    ; 戻さず割り算ループへ
+        SRA   GR6,1      ; 作業除数 >>=1（押上げを1段戻す）
+        SRA   GR0,1      ; マスク   >>=1（商ビット位置も戻す）
+DIVLOOP CPA   GR0,ZERO   ; マスク0なら全ビット処理完了
+        JZE   DIVEND
+        CPA   GR4,GR6    ; 余り >= 作業除数か判定
+        JMI   SKIPBIT    ; 引けない→商ビット0
+        SUBA  GR4,GR6    ; 余り -= 作業除数
+        ADDA  GR3,GR0    ; 商 += マスク（ビットを立てる）
+SKIPBIT SRA   GR6,1      ; 作業除数 >>=1（次の桁へ）
+        SRA   GR0,1      ; マスク   >>=1（次の商ビットへ）
+        JUMP  DIVLOOP
+DIVEND  RET              ; 終了（GR3=商,GR4=余り,GR2は不変）
+ONE     DC    1
+ZERO    DC    0
+        END

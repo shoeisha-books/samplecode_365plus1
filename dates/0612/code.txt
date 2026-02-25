@@ -1,0 +1,18 @@
+-- 100円以上の注文を1日5回以上したユーザーの、ユーザーごとの日次集計。
+SELECT -- ユーザー名・注文日・注文件数を抽出する。
+    users.name
+    , orders.created_at
+    , COUNT(*)
+FROM orders -- 注文一覧から探す。
+LEFT JOIN users -- ユーザー一覧と結合して探す。
+    ON users.id = orders.user_id
+WHERE -- 100円以上の注文を探す。
+    orders.price >= 100
+GROUP BY -- ユーザー名と注文日ごとにまとめる。
+    users.name
+    , orders.created_at
+HAVING -- まとめた結果から、5件以上のものを探す。
+    COUNT(*) >= 5
+ORDER BY -- 結果を並べ替える。
+    users.name ASC -- ユーザー名の昇順。
+    , COUNT(*) DESC -- 注文件数の降順。

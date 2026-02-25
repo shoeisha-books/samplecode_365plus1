@@ -1,0 +1,17 @@
+; Logoによる万華鏡パターンの描画
+; 対称性のある基本図形（ここでは正多角形）を回転しながら繰り返し描く。
+; 万華鏡のように放射状に模様が広がる。基本図形や色を変えると多様なパターンになる。
+TO POLY :SIDES :LEN
+    REPEAT :SIDES [ FD :LEN RT 360/:SIDES ]  ; 正多角形を描く
+END
+
+TO KALEIDO :SIDES :LEN :REPEATCOUNT
+    CS
+    REPEAT :REPEATCOUNT [
+    POLY :SIDES :LEN
+    RT 360/:REPEATCOUNT
+    ]
+END
+
+; 実行例：六角形を12回回転配置（万華鏡風）
+KALEIDO 6 60 12

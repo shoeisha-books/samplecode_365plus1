@@ -1,0 +1,29 @@
+* ローマ数字→整数（SNOBOL4／30行サンプル）
+* 使い方：echo MCMXCIV | snobol4 roman_to_int.sno  → 1994
+        R = INPUT
+        N = 0
+L       R 'CM' = 'DCCCC'       :S(L)
+        R 'CD' = 'CCCC'        :S(L)
+        R 'XC' = 'LXXXX'       :S(L)
+        R 'XL' = 'XXXX'        :S(L)
+        R 'IX' = 'VIIII'       :S(L)
+        R 'IV' = 'IIII'        :S(L)
+MLOOP   R 'M' = ''             :S(AM)F(DLOOP)
+AM      N = N + 1000           :(MLOOP)
+DLOOP   R 'D' = ''             :S(AD)F(CLOOP)
+AD      N = N + 500            :(DLOOP)
+CLOOP   R 'C' = ''             :S(AC)F(LLOOP)
+AC      N = N + 100            :(CLOOP)
+LLOOP   R 'L' = ''             :S(AL)F(XLOOP)
+AL      N = N + 50             :(LLOOP)
+XLOOP   R 'X' = ''             :S(AX)F(VLOOP)
+AX      N = N + 10             :(XLOOP)
+VLOOP   R 'V' = ''             :S(AV)F(ILOOP)
+AV      N = N + 5              :(VLOOP)
+ILOOP   R 'I' = ''             :S(AI)F(CHECK)
+AI      N = N + 1              :(ILOOP)
+CHECK   EQ(SIZE(R),0)          :S(OK)F(BAD)
+OK      OUTPUT = N             :(DONE)
+BAD     OUTPUT = 'ERROR: invalid Roman: ' R :(DONE)
+DONE
+END

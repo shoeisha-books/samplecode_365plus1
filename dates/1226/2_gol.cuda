@@ -1,0 +1,26 @@
+﻿constexpr size_t Width = 32;
+constexpr size_t Height = 32;
+
+__global__ void calcNext(const int *current, int *next)
+{
+    size_t idx = blockIdx.x * blockDim.x + threadIdx.x;
+    ulonglong2 pos = { idx % Width, idx / Width };
+
+    size_t upY = pos.y != 0ULL ? pos.y - 1 : Height - 1;
+    size_t downY = pos.y != Height - 1 ? pos.y + 1 : 0;
+    size_t leftX = pos.x != 0ULL ? pos.x - 1 : Width - 1;
+    size_t rightX = pos.x != Width - 1 ? pos.x + 1 : 0;
+
+    int sum =
+        current[upY * Width + leftX]
+            + current[upY * Width + pos.x]
+            + current[upY * Width + rightX]
+        + current[pos.y * Width + leftX]
+            + current[pos.y * Width + rightX]
+        + current[downY * Width + leftX]
+            + current[downY * Width + pos.x]
+            + current[downY * Width + rightX];
+
+    next[idx] = (current[idx] == 1 && (sum == 2 || sum == 3))
+                    || (current[idx] == 0 && sum == 3) ? 1 : 0;
+}

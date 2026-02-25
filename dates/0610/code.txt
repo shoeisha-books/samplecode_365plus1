@@ -1,0 +1,20 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dbp:  <http://ja.dbpedia.org/property/>
+
+SELECT DISTINCT ?label ?birthDate
+WHERE {
+  # パラメータ：誕生月と誕生日を指定します
+  VALUES (?month ?day) { (6 10) }
+
+  ?s dbp:生日 ?day ;
+     dbp:生月 ?month ;
+     dbp:生年 ?birthYear ;
+     rdfs:label ?label .
+
+  BIND(CONCAT(
+    STR(?birthYear), "-",
+    IF(?month < 10, CONCAT("0", STR(?month)), STR(?month)), "-",
+    IF(?day < 10, CONCAT("0", STR(?day)), STR(?day))
+  ) AS ?birthDate)
+}
+ORDER BY DESC(?birthDate)

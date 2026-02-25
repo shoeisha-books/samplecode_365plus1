@@ -1,0 +1,17 @@
+// 人ノードを作成。
+CREATE (me:Person {name: 'Me'})
+CREATE (a:Person {name: 'Alice'})
+CREATE (b:Person {name: 'Bob'})
+CREATE (c:Person {name: 'Charlie'})
+CREATE (d:Person {name: 'Diana'})
+
+// 「好き」の関係を作成。
+CREATE (me)-[:LIKES]->(a)
+CREATE (me)-[:LIKES]->(c)
+CREATE (b)-[:LIKES]->(c)
+CREATE (c)-[:LIKES]->(d)
+CREATE (d)-[:LIKES]->(a)
+
+// 私が好きな人達は私のことを好きになる。
+MATCH (me:Person {name: 'Me'})-[r:LIKES]->(other:Person)
+MERGE (other)-[:LIKES]->(me)

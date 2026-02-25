@@ -1,0 +1,25 @@
+.barber-pole {
+    background: linear-gradient(-30deg,
+    white 12.5%, red 12.5%,
+    red 25%, white 25%,
+    white 37.5%, blue 37.5%,
+    blue 50%, white 50%,
+    white 62.5%, red 62.5%,
+    red 75%, white 75%,
+    white 87.5%, blue 87.5%,
+    blue 100%, white 100%);
+    background-size: 173px 100px;
+    animation: animation 1000ms linear infinite;
+    width: 150px;
+    height: 400px;
+}
+
+@keyframes animation {
+    0% {
+    background-position: 0px 0px;
+    }
+
+    100% {
+    background-position: 0px -200px;
+    }
+}

@@ -1,0 +1,28 @@
+Sub swap_col(c1 As Long, c2 As Long)
+    Dim i As Long
+    For i = 0 To 8
+        Dim idx1 = i * 9 + c1, idx2 = i * 9 + c2
+        swap(idx1, idx2)
+    Next
+End	Sub
+
+Function idx_in_block(block As Long, i As Long) As Long
+    Return (block / 3) As Long * 27 + ((block Mod 3) * 3) + _
+         (i / 3) As Long * 9 + i Mod 3
+End Function
+
+    For i = 0 To 80
+        If field[i] = n1 Then
+            field[i] = n2
+        Else If field[i] = n2 Then
+            field[i] = n1
+        End If
+    Next
+End Sub
+
+Sub rand_pair(max As Long, ByRef val1 As Long, ByRef val2 As Long)
+    val1 = (Rnd * max) As Long
+    Do
+        val2 = (Rnd * max) As Long
+    Loop While val1 = val2
+End Sub

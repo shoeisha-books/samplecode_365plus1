@@ -1,0 +1,11 @@
+-- 現在時刻に引数で指定した数字の日数をプラスする関数
+CREATE OR REPLACE FUNCTION sample_add_date(int) RETURNS timestamp AS $$
+DECLARE
+    v_return_date timestamp;
+    v_add_date ALIAS FOR $1;
+BEGIN
+    -- 引数で指定した日数をプラスする
+    EXECUTE 'SELECT current_timestamp + interval ''' || v_add_date || ' days''' INTO v_return_date;
+    RETURN v_return_date;
+END
+$$ LANGUAGE plpgsql;

@@ -1,0 +1,23 @@
+                                ; 指定文字列を逆順にするプログラム
+                                ; "YRASREVINNA HT04"を逆順にして
+                                ; "40TH ANNIVERSARY"と表示されます
+MAIN    START                   ; int main() {
+        LAD     GR1,STR         ;   char *p = str
+        LAD     GR2,BUF         ;
+        ADDL    GR2,STRLEN      ;
+        LAD     GR2,-1,GR2      ;   char *q = buf + strlen - 1
+LOOP    LD      GR3,0,GR1       ;   do {
+        ST      GR3,0,GR2       ;     *q = *p
+        LAD     GR1,1,GR1       ;     ++p
+        LAD     GR2,-1,GR2      ;     --q
+        LAD     GR3,BUF         ;
+        CPL     GR2,GR3         ;
+        JMI     EXIT            ;
+        JUMP    LOOP            ;   } while (q >= buf)
+EXIT    OUT     BUF,STRLEN      ;   fwrite(buf, sizeof(char), strlen, stdout)
+        RET                     ; }
+STR     DC      'YRASREVINNA'   ; char *str =
+        DC      ' HT04'         ;   "YRASREVINNA HT04"
+STRLEN  DC      16              ; int strlen = 16
+BUF     DS      255             ; char buf[255]
+        END                     ;

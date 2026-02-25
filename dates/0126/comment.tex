@@ -1,0 +1,30 @@
+\usepackage{tikz}
+\usepackage{calendarfonts}
+\usepackage{calendarcolor}
+
+\makeatletter
+%%% カレンダーコメント部分 %%%
+% コメント
+\newcommand{\@commentapp}[1]{
+    \node at (0mm, 0mm)[anchor=north west,text width=55.5mm, inner sep=0mm]{\fontsize{6.3pt}{8.5pt}\selectfont{#1\\}};
+}
+% 著者
+\newcommand{\@authorapp}[1]{
+    \node at (55.5mm,-20.75mm)[anchor=south east, inner sep=0mm] {\fontsize{6.3pt}{0pt}\selectfont{\textgt{#1}}};
+}
+% コメントと著者の出力コマンド
+\newcommand{\commentall}[2]{
+  \@commentapp{#1}
+  \@authorapp{#2}
+}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%
+
+\documentclass{standalone}
+\usepackage{comment}
+\begin{document}
+\begin{tikzpicture}
+\commentall{コメント内容}{SE編集部}
+\end{tikzpicture}
+\end{document}

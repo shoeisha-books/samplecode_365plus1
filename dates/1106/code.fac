@@ -1,0 +1,27 @@
+USING: kernel math math.functions
+         math.parser prettyprint sequences ;
+IN: myprime
+
+! 2からsqrt(n)+2までのarrayを返す関数
+: 2tosqr ( n -- array )
+    dup sqrt >integer <iota> [ 2 + ] map remove ;
+
+! nがarrayのどれかで割れるかを返す関数
+: divisible? ( n array -- ? )
+    [ over swap mod 0 = ] any? nip ;
+
+! 素数かどうかを返す関数
+: prime? ( n -- ? )
+    dup 2tosqr divisible? not ;
+
+! メッセージを作成する関数
+: make-message ( n ? -- string )
+    [ number>string " => " ] dip
+    [ "not " append ] unless
+    "prime" 3append ;
+
+! いくつかの値が素数かどうかを表示する
+: main ( -- )
+    3 dup prime? make-message . ! 3 => prime
+    4 dup prime? make-message . ! 4 => not prime
+;

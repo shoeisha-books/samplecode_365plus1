@@ -1,0 +1,25 @@
+; CASL II 1ビット数え（POPCOUNT）/ Kernighan 法（互換性優先版）
+; IN : GR1=値（不変）
+; OUT: GR2=1ビットの個数
+; TMP: GR0=一時, GR4=作業用n, TMP=一時メモリ
+; 方針: n = n & (n-1) を 0 になるまで繰り返し、回数を数える。
+POPC    START
+        LD    GR4,GR1        ; n=入力（GR1は不変）
+        LD    GR2,ZERO       ; count=0
+
+LOOP    CPA   GR4,ZERO       ; n==0 ? → 終了
+        JZE   DONE
+        LD    GR0,GR4        ; t=n
+        SUBA  GR0,ONE        ; t=n-1（即値を避けメモリの1を使用）
+        ST    GR0,TMP        ; TMP=t をメモリに保存
+        AND   GR4,TMP        ; n = n & (n-1)（メモリオペランドで安定）
+        ADDA  GR2,ONE        ; count += 1（メモリの1を加算）
+        JUMP  LOOP
+
+DONE    RET                  ; 終了（GR2=結果, GR1は不変）
+
+DATA    DS    0              ; 以降データ領域
+TMP     DC    0              ; 一時
+ONE     DC    1              ; 定数1
+ZERO    DC    0              ; 定数0
+        END

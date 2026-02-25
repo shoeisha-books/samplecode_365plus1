@@ -1,0 +1,27 @@
++Let(
+    ExcelのTake関数を実装,"指定した番目までの値を取得　負の値を指定すれば末尾から取得　0を代入可",
+    Take, Lambda(range, row_take, col_take, Let(
+    結果ごとの配列の大きさが異なるためIfsが使えない,,
+    MakeIndex, Lambda(num, range, If(num >= 0,
+        Sequence(If(num, num, range+n("numが0ならrange"))),
+        Sequence(n("numが負なので")-num, 1, n("1-indexなので")+1 + range + num)
+    )),
+    row_taken,   IfError(ChooseRows(    range, MakeIndex(row_take,    Rows(range)))),
+    taken_range, IfError(ChooseCols(row_taken, MakeIndex(col_take, Columns(range)))),
+    taken_range
+    )),
+
+    ExcelのDrop関数を実装,"指定した番目までの値を削る　負の値を指定すれば末尾から削る　0を代入可",
+    Drop, Lambda(range, row_drop, col_drop, Let(
+    条件も符号も反転しているが_Takeと基本的な処理は共通,,
+    MakeIndex, Lambda(num, range, If(num <= 0,
+        Sequence(range + num),
+        Sequence(range - num, 1, n("1-indexなので")+1 + num))
+    ),
+    row_dropped,   IfError(ChooseRows(      range, MakeIndex(row_drop,    Rows(range)))),
+    dropped_range, IfError(ChooseCols(row_dropped, MakeIndex(col_drop, Columns(range)))),
+    dropped_range
+    )),
+    
+    Take(B2:J10,, 7)
+)

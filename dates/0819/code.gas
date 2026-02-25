@@ -1,0 +1,5 @@
+function myFunction() {
+    MailApp.sendEmail(
+        Session.getEffectiveUser().getEmail(), "Hello", "World"
+    );
+}

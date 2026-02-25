@@ -1,0 +1,28 @@
+// my_obj:MovieClip Instance
+
+var stepVal:Number = 5;
+
+function stepRotation(e:Event):void{
+    my_obj.rotation += stepVal;
+}
+
+function stepTranslation(e:Event):void{
+    my_obj.x += stepVal;
+    my_obj.y += stepVal;
+}
+
+function stepScaling(e:Event):void{
+    my_obj.scaleX += (stepVal * 0.1);
+    my_obj.scaleY += (stepVal * 0.1);
+}
+
+function stepFadingOut(e:Event):void{
+    if (my_obj.alpha <= 0.0){
+        return;
+    }
+    if (my_obj.alpha - 0.1 < 0.0){
+        my_obj.alpha = 0.0;
+    } else {
+        my_obj.alpha -= 0.1;
+    }
+}

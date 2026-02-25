@@ -1,0 +1,11 @@
+append()
+rnd:    entry(in)
+        assoc(insq) := in * in
+        assoc(out) := insq - (insq % 10000) - (insq % 100000000)
+        return(out)
+
+. := 0
+.
+
+val := 2753
+print(rnd(val)); while i < 100; init i := 0

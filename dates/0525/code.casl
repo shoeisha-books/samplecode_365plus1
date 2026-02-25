@@ -1,0 +1,30 @@
+; CASL II 整数平方根（ビット法／ 復元法）GR1入力→GR2出力
+; GR2=floor(sqrt(n)) / TMP:GR0(一時),GR3(bit),GR4(余り)
+SQRT    START
+        LD    GR4,GR1        ; 余り=n（GR1は不変）
+        LAD   GR2,0          ; res=0（部分平方根）
+        LAD   GR3,1          ; bit=1（4の冪の起点）
+BITUP   LD    GR0,GR3        ; 候補=bit<<2 を作る
+        SLA   GR0,1          ; <<1
+        SLA   GR0,1          ; <<2（4倍）
+        CPA   GR4,GR0        ; 余り - 候補
+        JMI   READY          ; 候補>余りなら押上げ完了
+        LD    GR3,GR0        ; bit=候補（さらに4倍OK）
+        JUMP  BITUP
+READY   CPA   GR3,ZERO       ; bit==0 なら終了
+        JZE   DONE
+        LD    GR0,GR2        ; t=res+bit を作る
+        ADDA  GR0,GR3        ; t = res + bit
+        CPA   GR4,GR0        ; 余り - t
+        JMI   NOSET          ; 引けない→この桁の商ビットは0
+        SUBA  GR4,GR0        ; 余り -= t
+        SRA   GR2,1          ; res >>= 1
+        ADDA  GR2,GR3        ; res += bit（ビットを立てる）
+        JUMP  DROP
+NOSET   SRA   GR2,1          ; res >>= 1（ビットは立てない）
+DROP    SRA   GR3,1          ; bit >>= 2（1回目）
+        SRA   GR3,1          ; bit >>= 2（2回目）
+        JUMP  READY
+DONE    RET                   ; 終了：GR2=[[√n]]（GR1不変）
+ZERO    DC    0
+        END

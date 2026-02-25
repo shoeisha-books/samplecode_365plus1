@@ -1,0 +1,31 @@
+#define		PI		(3.1415926536)
+dim _srcX, 4 : dim _srcY, 4 : dim _dstX, 4 : dim _dstY, 4 : dim _pos, 200, 2
+_srcX(0) = 128 : _srcX(2) = 128 : _srcX(3) = 128
+_dstX(0) = 320 : _dstY(0) = 240 : _dstX(3) = 320 : _dstY(3) = 240
+randomize
+repeat 200
+    _pos(cnt,0) = rnd(512) : _pos(cnt,1) = rnd(512)
+loop
+repeat
+    _timer = cnt
+    redraw 0 : randomize 0
+    _bright = 128 +int(sin((PI *_timer /256)) * 64)
+    color (_bright /1), (_bright /8), (_bright /3) : boxf
+    repeat 200
+        _pos(cnt,0) = (_pos(cnt,0) -8 +rnd(16) +512)	\512
+        _pos(cnt,1) = (_pos(cnt,1) -8 +rnd(16) +512)	\512
+        color 127 + rnd(128), 127 + rnd(128), 127 + rnd(128)
+        _size = (cnt /32) +2
+        circle _pos(cnt,0) /4 -_size, _pos(cnt,1) /4 -_size, _pos(cnt,0) /4 +_size, _pos(cnt,1) /4 +_size
+    loop
+    _srcY(1) = 96 +int(sin((PI *_timer /128)) * 32) : _srcY(2) = _srcY(1)
+    repeat 7
+        _cnt = cnt
+        repeat 2, 1
+            _dstX(cnt) = _dstX(0) + int(sin((PI *2 *(_cnt + cnt) /7) + (0.01 * _timer)) * 200)
+            _dstY(cnt) = _dstY(0) + int(cos((PI *2 *(_cnt + cnt) /7) + (0.01 * _timer)) * 200)
+        loop
+        gsquare	0, _dstX, _dstY, _srcX, _srcY
+    loop
+    redraw 1 : await 30
+loop

@@ -1,0 +1,29 @@
+(de tarai (x y z)
+    (cond ((> x y)
+           (& (:aux _ans)
+              (&tarai ,(tarai (1- x) y z)
+                      ,(tarai (1- y) z x)
+                      ,(tarai (1- z) x y) _ans)
+              _ans))
+          (t y) ))
+
+(defrel &tarai
+    ((    _x _y _z _ans)
+     (:aux _a0 _a1 _a2)
+     (> _x _y) !
+     (&tarai ,[_x - 1] _y _z _a0)
+     (&tarai ,[_y - 1] _z _x _a1)
+     (&tarai ,[_z - 1] _x _y _a2)
+     (== _ans ,[_a0 :tarai _a1 _a2]))
+    ((    _x _y _z _y)
+     (not (> _x _y)) !))
+
+(defmethod (integer :tarai) (y z)
+    (cond ([self > y]
+           (tarai [[self - 1] :tarai y z]
+                  [[y - 1] :tarai z self]
+                  [[z - 1] :tarai self y] ))
+          (t y) ))
+
+(tarai 12 6 0)
+;→ 12

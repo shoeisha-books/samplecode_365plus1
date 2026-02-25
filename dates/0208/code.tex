@@ -1,0 +1,90 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{math} % tikzmathコマンドを使うために必要
+
+\begin{document}
+
+\hrulefill Start of Graph \hrulefill
+
+\tikzmath{
+    int \coe;
+    \coe1=random(-8,9); \coe1=ifthenelse(\coe1>0, \coe1, \coe1 -1);
+    \coe2=random(-8,9); \coe2=ifthenelse(\coe2>0, \coe2, \coe2 -1);
+    \coe3=random(-8,9); \coe3=ifthenelse(\coe3>0, \coe3, \coe3 -1);
+% 多項式表示
+    \polynomial =  "\coe1 x^{2}";
+    \polynomial = ifthenelse(\coe2<0, "\polynomial \coe2 x", "\polynomial + \coe2 x");
+    \polynomial = ifthenelse(\coe3<0, "\polynomial \coe3", "\polynomial + \coe3");
+% 頂点
+    int \xaxis, \yaxis;
+    real \tpt, \area;
+    % 頂点のx座標
+    \xaxis1 = -1 * \coe2; \xaxis2 = 2 * \coe1;
+    \xaxis3 = abs(\xaxis1) / gcd(abs(\xaxis1),abs(\xaxis2));
+    \xaxis4 = abs(\xaxis2) / gcd(abs(\xaxis1),abs(\xaxis2));
+    \tpt1 = \xaxis1 / \xaxis2;
+    \sgnx = ifthenelse(\tpt1<0, "-", "");
+    \ytppos = ifthenelse(\tpt1<0, "right", "left");
+    \ypos = ifthenelse(\tpt1<0, "left", "right");
+    % 頂点のy座標
+    \yaxis1 = (-1) * \coe2 * \coe2 + 4 * \coe1 * \coe3; \yaxis2 = 4 * \coe1;
+    \yaxis3 = abs(\yaxis1) / gcd(abs(\yaxis1),abs(\yaxis2));
+    \yaxis4 = abs(\yaxis2) / gcd(abs(\yaxis1),abs(\yaxis2));
+    \tpt2 = \yaxis1/\yaxis2;
+    \sgny = ifthenelse(\tpt2<0, "-", "");
+    \xtppos = ifthenelse(\tpt2<0, "above", "below");
+%
+% グラフエリア
+    \area0 = max(
+    max( abs(\tpt 1/3), abs(\tpt2 /3+\coe3 /3) ),
+    max( abs(\tpt1 *2/3), abs(\tpt2 *2/3-\coe3 /3) ),
+    abs(- \tpt2 /3+\coe3 *2/3) )
+    );
+    \area1 = \tpt1 /3 + \area0 * 1.1;
+    \area2 = \tpt1 /3 - \area0 * 1.1;
+    \area3 = \tpt2 /3 + \coe3 /3 + \area0 * 1.1;
+    \area4 = \tpt2 /3 + \coe3 /3 - \area0 * 1.1;
+    \area1 = ifthenelse(\area1<2,2,\area1);
+    \area2 = ifthenelse(\area2>-2,-2,\area2);
+    \area3 = ifthenelse(\area3<2,2,\area3);
+    \area4 = ifthenelse(\area4>-2,-2,\area4);
+% スケール倍率
+    real \scale;
+    \scale = 10 / (\area1 - \area2);
+% 原点記号表示位置
+    \oripos = ifthenelse(\tpt2<0,
+    ifthenelse(\tpt1<0, "above right", "above left"),
+    ifthenelse(\tpt1<0, "below right", "below left")
+    );
+}
+
+\[
+    \text{function:} \quad
+    y= \polynomial
+\]
+
+\begin{center}
+    \begin{tikzpicture}[scale=\scale]
+    \draw[->,>=stealth,semithick] (\area2,0)--(\area1,0) node[\xtppos]{$x$}; %x軸
+    \draw[->,>=stealth,semithick] (0,\area4)--(0,\area3) node[\ypos]{$y$}; %y軸
+    \node[\oripos] at (0,0) {$O$}; % 原点Oの表記
+
+    \begin{scope}
+        \clip (\area2, \area4) rectangle (\area1, \area3);
+
+        \draw[thick,smooth] plot(\x, \coe1 * \x * \x + \coe2 * \x + \coe3 ); % グラフ描
+画
+
+        \draw[dashed] (\tpt1, 0) |- (0, \tpt2); % 頂点への破線
+        \node[\xtppos] at (\tpt1,0) {$\sgnx\frac{\xaxis3}{\xaxis4}$}; % 頂点のx座標
+        \node[\ytppos] at (0,\tpt2) {$\sgny\frac{\yaxis3}{\yaxis4}$}; % 頂点のy座標
+        \node[\ytppos] at (0,\coe3) {$\coe3$}; % y切片
+    \end{scope}
+    \end{tikzpicture}
+\end{center}
+
+\hrulefill End of Graph \hrulefill
+
+\end{document}

@@ -1,0 +1,19 @@
+Sub randomize_field(count As Long)
+    Dim i As Long
+    For i = 0 To count
+        Dim pat = (Rnd * 3) As Long
+        Select Case pat
+            Case 0
+                swap_number_rnd()
+            Case 1
+                swap_col_rnd()
+            Case 2
+                swap_row_rnd()
+        End Select
+    Next
+End Sub
+
+Randomize
+init_seed_field()
+randomize_field(100)
+print_field()

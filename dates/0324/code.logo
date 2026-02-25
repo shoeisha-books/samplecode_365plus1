@@ -1,0 +1,23 @@
+TO DRAWSE                                 ; SEを描く関数
+    RIGHT 180
+    DRAWSCURVE [LEFT 30]                      ; Sの下の半円を描く
+    LEFT 60 FORWARD 135 RIGHT 60              ; Sの真ん中の斜め線を描く
+    DRAWSCURVE [RIGHT 30]                     ; Sの上の半円を描く
+
+    PENUP BACK 50 LEFT 90 FORWARD 5 PENDOWN   ; Eの始点に移動する
+
+    DRAWELINE 100                             ; Eの上の横線を描く
+    DRAWELINE 90                              ; Eの真ん中の横線を描く
+    FORWARD 100                               ; Eの下の横線を描く
+END
+
+TO DRAWSCURVE :TURN                       ; Sの半円を描く関数
+    FORWARD 15 RUN :TURN                      ; 半円の始めを描く
+    REPEAT 5 [FORWARD 30 RUN :TURN]           ; 半円の途中を描く
+    FORWARD 15                                ; 半円の終わりを描く
+END
+
+TO DRAWELINE :WIDTH                       ; Eのパーツを描く関数
+    FORWARD :WIDTH BACK :WIDTH                ; Eの横線を描く
+    RIGHT 90 FORWARD 80 LEFT 90               ; Eの縦線を描く
+END

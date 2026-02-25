@@ -1,0 +1,31 @@
+#console
+
+Dim field[80] As Long
+
+Sub init_seed_field()
+    Dim begin_idx = 0 As Long
+    Dim x As Long, y As Long
+    For y = 0 To 8
+        For x = 0 To 8
+            Dim idx = y * 9 + ((x + begin_idx) Mod 9)
+            field[idx] = x + 1
+        Next
+        begin_idx += 3
+        If begin_idx >= 9 Then begin_idx -= 8
+    Next
+End Sub
+
+Sub swap(idx1 As Long, idx2 As Long)
+    Dim temp As Long
+    temp = field[idx1]
+    field[idx1] = field[idx2]
+    field[idx2] = temp
+End	Sub
+
+Sub swap_row(r1 As Long, r2 As Long)
+    Dim i As Integer
+    For i = 0 To 8
+        Dim idx1 = r1 * 9 + i, idx2 = r2 * 9 + i
+        swap(idx1, idx2)
+    Next
+End Sub

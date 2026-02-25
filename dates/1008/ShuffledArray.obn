@@ -1,0 +1,30 @@
+MODULE ShuffledArray;
+IMPORT Random, Out;
+CONST Size = 100; VAR i:INTEGER; arr_: ARRAY Size OF INTEGER;
+
+PROCEDURE InitArray;
+BEGIN
+    FOR i := 1 TO Size DO arr_[i] := i; END;
+END InitArray;
+
+PROCEDURE ShuffleArray;
+CONST SwapCount = 1000;
+VAR i, idx1, idx2, temp : INTEGER;
+BEGIN
+    Random.Randomize;
+    FOR i := 1 TO SwapCount DO
+        idx1 := Random.Int(Size) + 1; idx2 := Random.Int(Size) + 1;
+        temp := arr_[idx1]; arr_[idx1] := arr_[idx2]; arr_[idx2] := temp;
+    END;
+END ShuffleArray;
+
+PROCEDURE PrintArray;
+VAR i : INTEGER;
+BEGIN
+    FOR i := 1 TO Size DO Out.Int(arr_[i], 5); Out.String(' '); END;
+    Out.Ln;
+END PrintArray;
+
+BEGIN
+    InitArray; ShuffleArray; PrintArray;
+END ShuffledArray.

@@ -1,0 +1,23 @@
+static __global__ void mulKernel(float* in, float* out, const float mul)
+{
+    int i = blockDim.x * blockIdx.x + threadIdx.x;
+    out[i] = in[i] * mul;
+}
+
+void mul_impl(const float* inVec, float* outVec, long long vecSize, float mul)
+{
+    float* dev_in, * dev_out = nullptr;
+
+    cudaSetDevice(0);
+    cudaMalloc((void**)&dev_in, vecSize * sizeof(float));
+    cudaMalloc((void**)&dev_out, vecSize * sizeof(float));
+    cudaMemcpy(dev_in, inVec, vecSize * sizeof(float), cudaMemcpyHostToDevice);
+
+    mulKernel << < 100, 100 >> > (dev_in, dev_out, mul);
+
+    cudaDeviceSynchronize();
+    cudaMemcpy(outVec, dev_out, vecSize * sizeof(float), cudaMemcpyDeviceToHost);
+
+    cudaFree(dev_in);
+    cudaFree(dev_out);
+}

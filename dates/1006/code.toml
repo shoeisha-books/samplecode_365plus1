@@ -1,0 +1,9 @@
+[language]
+name = "TOML"
+version = "1.0.0"
+
+[[calendar.days]]
+name = "Today"
+weekday = "Tuesday"
+date = 2026-10-06
+

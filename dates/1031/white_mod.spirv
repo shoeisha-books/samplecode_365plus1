@@ -1,0 +1,29 @@
+; SPIR-V
+; Version: 1.5
+; Generator: Khronos Slang Compiler; 0
+; Bound: 16
+; Schema: 0
+OpCapability Shader
+OpMemoryModel Logical GLSL450
+OpEntryPoint Vertex %vsMain "vsMain"
+OpEntryPoint Fragment %fsMain "fsMain" %entryPointParam_fsMain
+OpExecutionMode %fsMain OriginUpperLeft
+
+; Debug Information
+OpSource Slang 1
+OpName %vsMain "vsMain"                                 ; id %2
+OpName %entryPointParam_fsMain "entryPointParam_fsMain" ; id %11
+OpName %fsMain "fsMain"                                 ; id %6
+～省略～
+; Function vsMain
+%vsMain = OpFunction %void None %3
+%4 = OpLabel
+OpReturn
+OpFunctionEnd
+
+; Function fsMain
+%fsMain = OpFunction %void None %3
+%7 = OpLabel
+OpStore %entryPointParam_fsMain %12
+OpReturn
+OpFunctionEnd

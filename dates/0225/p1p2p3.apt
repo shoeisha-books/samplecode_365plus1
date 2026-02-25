@@ -1,0 +1,13 @@
+PARTNO / 1001
+
+P1 = POINT / 0,0,0
+P2 = POINT / 100,0,0
+P3 = POINT / 100,100,0
+
+CUTTER / 10      $$ 工具径10mm
+FEDRAT / 150     $$ 送り速度
+SPINDL / 2000    $$ 回転数
+
+FROM / P1
+GOTO / P2
+GOTO / P3

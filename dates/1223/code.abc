@@ -1,0 +1,13 @@
+HOW TO FIZZBUZZ n:
+     FOR i IN {1..n}:
+        WRITE (fb(i)) ^ " "
+
+HOW TO RETURN fb n:
+     SELECT:
+        n mod 15 = 0: RETURN "FizzBuzz"
+        n mod 5 = 0: RETURN "Buzz"
+        n mod 3 = 0: RETURN "Fizz"
+        ELSE: RETURN n << 0
+
+\ >>> FIZZBUZZ 15
+\ 1 2 Fizz 4 Buzz Fizz 7 8 Fizz Buzz 11 Fizz 13 14 FizzBuzz

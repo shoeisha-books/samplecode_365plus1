@@ -1,0 +1,25 @@
+; Logo によるKoch雪の結晶（フラクタル図形）を描くプログラム
+; Koch曲線は、線分を3等分し、中央部分を正三角形状に折り上げる操作を
+; 繰り返すことでできるフラクタル構造です。深さを増やすごとに複雑さが増し、
+; 雪の結晶のような形が現れます。このプログラムでは、正三角形の3辺すべてに
+; Koch曲線を適用して雪の結晶を描きます。
+
+; Koch曲線（n回再帰）— 線分をフラクタル化
+TO KOCH :LEN :DEPTH
+    IF :DEPTH=0 [ FD :LEN STOP ]    ; 終端：単純な直線
+    MAKE "LEN :LEN/3                 ; 長さを3等分
+    KOCH :LEN :DEPTH-1               ; 1つ目の辺
+    LT 60
+    KOCH :LEN :DEPTH-1               ; 2つ目
+    RT 120
+    KOCH :LEN :DEPTH-1               ; 3つ目
+    LT 60
+    KOCH :LEN :DEPTH-1               ; 4つ目
+END
+
+; Koch雪の結晶を描く（三角形の各辺をKoch曲線に）
+TO SNOW :LEN :DEPTH
+    REPEAT 3 [ KOCH :LEN :DEPTH  RT 120 ]  ; 3辺ぶん描画
+END
+
+CS PU SETXY 0 -120 SETHEADING 0 PD SNOW 200 2  ; 深さ2の雪の結晶を描画

@@ -1,0 +1,30 @@
+Sub swap_number_rnd()
+    Dim i As Long, j As Long
+    rand_pair(9, i, j)
+    swap_number(i + 1, j + 1)
+End Sub
+
+Sub swap_col_rnd()
+    Dim block_col = (Rnd * 3) As Long
+    Dim i As Long, j As Long
+    rand_pair(3, i, j)
+    swap_col(block_col * 3 + i, block_col * 3 + j)
+End Sub
+
+Sub swap_row_rnd()
+    Dim block_row = (Rnd * 3) As Long
+    Dim i As Long, j As Long
+    rand_pair(3, i, j)
+    swap_row(block_row * 3 + i, block_row * 3 + j)
+End Sub
+
+Sub print_field()
+    Dim x As Long, y As Long
+    For y = 0 To 8
+        For x = 0 To 8
+            Dim idx = y * 9 + x
+            Print field[idx], ",";
+        Next
+        Print ""
+    Next
+End Sub
