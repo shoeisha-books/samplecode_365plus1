@@ -12,16 +12,11 @@ pat  _  = replicate 7 "     "
 
 render s = unlines [intercalate "   " [g!!i | g <- map pat s] | i <- [0..6]]
 
-center w s = let l = sum [if c <= '\x7f' then 1 else 2 | c <- s]
-            in replicate ((w - l) `div` 2) ' ' ++ s
-
 main :: IO ()
 main = do
-    putStrLn (render "SHOEISHA")
-    t <- utctDay <$> getCurrentTime
-    let (y, m, d) = toGregorian t
-        n = if t >= fromGregorian y 12 19 then y - 1984 else y - 1985
-        days = diffDays t (fromGregorian 1985 12 19) + 1
-    putStrLn $ "創業" ++ show n ++ "年目 / " ++ show days ++ "日目"
-    case (m, d, days `mod` 1000, days `mod` 365) of
-    (12, 19, _, _) -> putStrLn 
+  putStrLn (render "SHOEISHA")
+  t <- utctDay <$> getCurrentTime
+  let (y, m, d) = toGregorian t
+      n = if t >= fromGregorian y 12 19 then y - 1984 else y - 1985
+      days = diffDays t (fromGregorian 1985 12 19) + 1
+  putStrLn $ "創業" ++ show n ++ "年目 / " ++ show days ++ "日目"
